@@ -33,3 +33,31 @@ export const validateUserRequest = [
     .withMessage("El pais debe ser un string"),
   handleValidationErrors,
 ];
+
+export const validateRestauranteRequest = [
+  body("restauranteName")
+    .notEmpty()
+    .withMessage("El nombre del restaurante es requerido"),
+  body("city").notEmpty().withMessage("La ciudad es requerida"),
+  body("country").notEmpty().withMessage("El pais es requerido"),
+  body("deliverPrice")
+    .isFloat({ min: 0 })
+    .withMessage("El precio de entrega debe ser un numero positivo"),
+  body("estimatedDeliveryTime")
+    .isFloat({ min: 0 })
+    .withMessage("El tiempo de entrega debe ser un numero positivo"),
+  body("cuisines")
+    .isArray()
+    .withMessage("El tipo se cocina debe ser un arreglo")
+    .not()
+    .isEmpty()
+    .withMessage("El arreglo de cocinas no puede estar vacio"),
+  body("menuItems").isArray().withMessage("Los platillos deben ser un arreglo"),
+  body("menuItems.*.name")
+    .notEmpty()
+    .withMessage("El nombre del item del menu es requerido"),
+  body("menuItems.*.price")
+    .notEmpty()
+    .withMessage("El precio del item del menu es requerido"),
+  handleValidationErrors,
+];
