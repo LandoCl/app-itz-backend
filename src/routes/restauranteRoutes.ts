@@ -3,10 +3,12 @@ import multer from "multer";
 import {
   createRestaurante,
   getRestaurante,
+  searchRestaurante,
   updateRestaurante,
 } from "../controllers/restauranteController.js";
 import { jwtCheck, jwtParse } from "../middleware/auth.js";
 import { validateRestauranteRequest } from "../middleware/validation.js";
+import { param } from "express-validator";
 
 const router = express.Router();
 
@@ -35,6 +37,16 @@ router.put(
   upload.single("imageFile"),
   validateRestauranteRequest,
   updateRestaurante,
+);
+
+router.get(
+  "/search/:city",
+  param("city")
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("El parametro ciudad debe ser un string valido"),
+  searchRestaurante,
 );
 
 export default router;
